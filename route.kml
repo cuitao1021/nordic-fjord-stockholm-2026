@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>2026 北欧峡湾 × 斯德哥尔摩 v3</name>
-    <description>2026-09-29 至 2026-10-06 松弛版路线。道路和班次请在临行前重新核对。</description>
-    <Style id="fjordLine"><LineStyle><color>ff63a89d</color><width>5</width></LineStyle></Style>
-    <Style id="returnLine"><LineStyle><color>ffa3aa7c</color><width>5</width></LineStyle></Style>
-    <Style id="cityLine"><LineStyle><color>ff404bb9</color><width>4</width></LineStyle></Style>
-    <Style id="norwayPoint"><IconStyle><color>ff635c0d</color><scale>1.1</scale></IconStyle></Style>
-    <Style id="swedenPoint"><IconStyle><color>ff303aa2</color><scale>1.1</scale></IconStyle></Style>
-    <Folder><name>挪威自驾路线</name>
-      <Placemark><name>09.29 BGO → Aurland · 177 km / 3h16</name><styleUrl>#fjordLine</styleUrl><LineString><tessellate>1</tessellate><coordinates>
-        5.216335,60.293409,0 5.322788,60.293485,0 5.472302,60.391241,0 5.556734,60.422163,0 5.675197,60.456061,0 5.747486,60.469871,0 5.722337,60.542373,0 5.832855,60.612123,0 5.977578,60.645322,0 6.107744,60.647876,0 6.239385,60.636824,0 6.356878,60.613530,0 6.436488,60.662067,0 6.490083,60.727401,0 6.509147,60.791918,0 6.686225,60.814164,0 6.727236,60.844451,0 6.839281,60.878791,0 7.051474,60.892121,0 7.114837,60.868064,0 7.141916,60.867191,0 7.190795,60.906199,0
-      </coordinates></LineString></Placemark>
-      <Placemark><name>09.30 Aurland → Stegastein → Flåm</name><styleUrl>#fjordLine</styleUrl><LineString><tessellate>1</tessellate><coordinates>
-        7.190762,60.906229,0 7.203764,60.921195,0 7.211276,60.925641,0 7.213832,60.922489,0 7.212790,60.908360,0 7.190762,60.906229,0 7.169483,60.899113,0 7.150985,60.877886,0 7.128721,60.863939,0 7.116862,60.863630,0
-      </coordinates></LineString></Placemark>
-      <Placemark><name>10.01 Aurland → Oslo · 305 km / 5h06</name><styleUrl>#returnLine</styleUrl><LineString><tessellate>1</tessellate><coordinates>
-        7.190762,60.906229,0 7.523932,61.056557,0 7.845583,61.079241,0 7.979459,61.047045,0 8.165836,60.957494,0 8.417854,60.870868,0 8.648219,60.820109,0 8.887411,60.733517,0 9.060576,60.634474,0 9.291207,60.444047,0 9.581826,60.386364,0 9.811081,60.266025,0 10.028811,60.206118,0 10.261191,60.143072,0 10.308281,60.061407,0 10.411531,59.941530,0 10.653817,59.916070,0 10.752626,59.913928,0
-      </coordinates></LineString></Placemark>
+    <name>2026 北极圈特罗姆瑟 × 斯德哥尔摩路线 v4</name>
+    <description>2026-09-29 至 2026-10-06。导入 Google My Maps 后可按文件夹查看海岸环线、Lyngen 线、Oldervik 备用线和 Stockholm 节点。</description>
+    <Style id="coast"><LineStyle><color>ffb0b928</color><width>5</width></LineStyle></Style>
+    <Style id="lyngen"><LineStyle><color>ffa8e075</color><width>5</width></LineStyle></Style>
+    <Style id="backup"><LineStyle><color>ff67b4e4</color><width>4</width></LineStyle></Style>
+    <Style id="stockholm"><LineStyle><color>ff4854b8</color><width>4</width></LineStyle></Style>
+    <Style id="arcticPoint"><IconStyle><color>ff8a7808</color><scale>1.1</scale></IconStyle></Style>
+    <Style id="swedenPoint"><IconStyle><color>ff3f4ba9</color><scale>1.1</scale></IconStyle></Style>
+    <Folder><name>09.30 Kvaløya–Sommarøy 海岸环线</name>
+      <Placemark><name>09.30 海岸环线</name><styleUrl>#coast</styleUrl><LineString><tessellate>1</tessellate><coordinates>18.9553,69.6492,0 18.6206,69.6943,0 18.5398,69.7770,0 18.0073,69.6336,0 18.5250,69.6425,0 18.9553,69.6492,0</coordinates></LineString></Placemark>
     </Folder>
-    <Folder><name>斯德哥尔摩慢游</name>
-      <Placemark><name>Gamla Stan → City Hall → Monteliusvägen → Vasa → Djurgården → Östermalm</name><styleUrl>#cityLine</styleUrl><LineString><tessellate>1</tessellate><coordinates>18.0708,59.3254,0 18.0544,59.3275,0 18.0578,59.3196,0 18.0914,59.3280,0 18.1200,59.3258,0 18.0790,59.3360,0</coordinates></LineString></Placemark>
+    <Folder><name>10.01 Lyngen 主线</name>
+      <Placemark><name>Breivikeidet–Svensby–Lyngen</name><styleUrl>#lyngen</styleUrl><LineString><tessellate>1</tessellate><coordinates>18.9553,69.6492,0 19.6333,69.6667,0 19.9033,69.6656,0 20.2189,69.5760,0 19.9033,69.6656,0 19.6333,69.6667,0 18.9553,69.6492,0</coordinates></LineString></Placemark>
     </Folder>
-    <Folder><name>游玩节点</name>
-      <Placemark><name>01 Tvindefossen</name><styleUrl>#norwayPoint</styleUrl><description>09.29 可选 · 扇形层叠瀑布 · 20–30分钟</description><Point><coordinates>6.48932,60.72749,0</coordinates></Point></Placemark>
-      <Placemark><name>02 Gudvangen</name><styleUrl>#norwayPoint</styleUrl><description>纳柔依峡湾内端</description><Point><coordinates>6.83917,60.87865,0</coordinates></Point></Placemark>
-      <Placemark><name>03 Aurland</name><styleUrl>#norwayPoint</styleUrl><description>09.29–10.01 · 两晚住宿基地</description><Point><coordinates>7.19069,60.90621,0</coordinates></Point></Placemark>
-      <Placemark><name>04 Stegastein</name><styleUrl>#norwayPoint</styleUrl><description>09.30 · 650米峡湾观景台</description><Point><coordinates>7.21279,60.90836,0</coordinates></Point></Placemark>
-      <Placemark><name>05 Flåm</name><styleUrl>#norwayPoint</styleUrl><description>09.30 · 游船起点</description><Point><coordinates>7.11717,60.86365,0</coordinates></Point></Placemark>
-      <Placemark><name>06 Nærøyfjord</name><styleUrl>#norwayPoint</styleUrl><description>09.30 · 世界遗产峡湾游船</description><Point><coordinates>6.93150,60.93450,0</coordinates></Point></Placemark>
-      <Placemark><name>07 Oslo Opera / Bjørvika</name><styleUrl>#norwayPoint</styleUrl><description>10.01 · 可选海港散步</description><Point><coordinates>10.75330,59.90750,0</coordinates></Point></Placemark>
-      <Placemark><name>08 Gamla Stan / Stortorget</name><styleUrl>#swedenPoint</styleUrl><description>10.02 · 中世纪老城</description><Point><coordinates>18.07080,59.32540,0</coordinates></Point></Placemark>
-      <Placemark><name>09 Vasa Museum</name><styleUrl>#swedenPoint</styleUrl><description>10.03 · 17世纪战舰</description><Point><coordinates>18.09140,59.32800,0</coordinates></Point></Placemark>
-      <Placemark><name>10 Djurgården</name><styleUrl>#swedenPoint</styleUrl><description>10.03 · 皇家绿色岛屿</description><Point><coordinates>18.12000,59.32580,0</coordinates></Point></Placemark>
-      <Placemark><name>11 Stockholm City Hall</name><styleUrl>#swedenPoint</styleUrl><description>10.04 · 导览约45分钟</description><Point><coordinates>18.05440,59.32750,0</coordinates></Point></Placemark>
-      <Placemark><name>12 Södermalm / Monteliusvägen</name><styleUrl>#swedenPoint</styleUrl><description>10.04 · 日落观景路</description><Point><coordinates>18.05780,59.31960,0</coordinates></Point></Placemark>
-      <Placemark><name>13 Östermalms Saluhall</name><styleUrl>#swedenPoint</styleUrl><description>10.05 · 周一09:30开门</description><Point><coordinates>18.07900,59.33600,0</coordinates></Point></Placemark>
+    <Folder><name>10.01 Oldervik 备用线</name>
+      <Placemark><name>Tønsvik–Oldervik 备用</name><styleUrl>#backup</styleUrl><LineString><tessellate>1</tessellate><coordinates>18.9553,69.6492,0 19.0310,69.7650,0 19.6900,69.7550,0 19.0310,69.7650,0 18.9553,69.6492,0</coordinates></LineString></Placemark>
+    </Folder>
+    <Folder><name>10.02–10.05 Stockholm</name>
+      <Placemark><name>Stockholm 城市节点线</name><styleUrl>#stockholm</styleUrl><LineString><tessellate>1</tessellate><coordinates>18.0708,59.3254,0 18.0914,59.3280,0 18.1200,59.3258,0 18.0544,59.3275,0 18.0578,59.3196,0 18.0790,59.3360,0</coordinates></LineString></Placemark>
+    </Folder>
+    <Folder><name>特罗姆瑟周边节点</name>
+      <Placemark><name>01 Tromsø 港口</name><description>09.29 / 每晚；城市适应与港口散步。</description><styleUrl>#arcticPoint</styleUrl><Point><coordinates>18.9553,69.6492,0</coordinates></Point></Placemark>
+      <Placemark><name>02 北极教堂</name><description>09.29 可选；外观与彩色玻璃。</description><styleUrl>#arcticPoint</styleUrl><Point><coordinates>18.9871,69.6489,0</coordinates></Point></Placemark>
+      <Placemark><name>03 Fjellheisen</name><description>天气最好时；山顶能见度决定是否上缆车。</description><styleUrl>#arcticPoint</styleUrl><Point><coordinates>18.9986,69.6427,0</coordinates></Point></Placemark>
+      <Placemark><name>04 Ersfjordbotn</name><description>09.30；深色峡湾与尖峰。</description><styleUrl>#arcticPoint</styleUrl><Point><coordinates>18.6206,69.6943,0</coordinates></Point></Placemark>
+      <Placemark><name>05 Grøtfjord</name><description>09.30 天气好时；北向海湾与白沙。</description><styleUrl>#arcticPoint</styleUrl><Point><coordinates>18.5398,69.7770,0</coordinates></Point></Placemark>
+      <Placemark><name>06 Sommarøy</name><description>09.30；白沙渔村群岛。</description><styleUrl>#arcticPoint</styleUrl><Point><coordinates>18.0073,69.6336,0</coordinates></Point></Placemark>
+      <Placemark><name>07 Kattfjordeidet</name><description>09.30 回程；荒原山口，路面结冰时不停。</description><styleUrl>#arcticPoint</styleUrl><Point><coordinates>18.5250,69.6425,0</coordinates></Point></Placemark>
+      <Placemark><name>08 Breivikeidet 渡轮码头</name><description>10.01 Plan A；前一晚核对 Svipper。</description><styleUrl>#arcticPoint</styleUrl><Point><coordinates>19.6333,69.6667,0</coordinates></Point></Placemark>
+      <Placemark><name>09 Svensby / Lyngen Alps</name><description>10.01 Plan A；公路观景和短步行。</description><styleUrl>#arcticPoint</styleUrl><Point><coordinates>19.9033,69.6656,0</coordinates></Point></Placemark>
+      <Placemark><name>10 Oldervik</name><description>10.01 Plan B；无渡轮、可随时掉头。</description><styleUrl>#arcticPoint</styleUrl><Point><coordinates>19.6900,69.7550,0</coordinates></Point></Placemark>
+    </Folder>
+    <Folder><name>斯德哥尔摩节点</name>
+      <Placemark><name>11 Gamla Stan / Stortorget</name><description>10.02 或 10.05；老城黄昏。</description><styleUrl>#swedenPoint</styleUrl><Point><coordinates>18.0708,59.3254,0</coordinates></Point></Placemark>
+      <Placemark><name>12 Vasa Museum</name><description>10.03；约 2–2.5 小时。</description><styleUrl>#swedenPoint</styleUrl><Point><coordinates>18.0914,59.3280,0</coordinates></Point></Placemark>
+      <Placemark><name>13 Djurgården</name><description>10.03；运河与岛屿散步。</description><styleUrl>#swedenPoint</styleUrl><Point><coordinates>18.1200,59.3258,0</coordinates></Point></Placemark>
+      <Placemark><name>14 Stockholm City Hall</name><description>10.04；预约导览或外观水岸。</description><styleUrl>#swedenPoint</styleUrl><Point><coordinates>18.0544,59.3275,0</coordinates></Point></Placemark>
+      <Placemark><name>15 Monteliusvägen</name><description>10.04；日落前观景。</description><styleUrl>#swedenPoint</styleUrl><Point><coordinates>18.0578,59.3196,0</coordinates></Point></Placemark>
+      <Placemark><name>16 Östermalms Saluhall</name><description>10.05；早午餐后返程。</description><styleUrl>#swedenPoint</styleUrl><Point><coordinates>18.0790,59.3360,0</coordinates></Point></Placemark>
     </Folder>
   </Document>
 </kml>
