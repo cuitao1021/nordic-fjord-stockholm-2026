@@ -1,14 +1,17 @@
-Name,Description,Latitude,Longitude,Date,Country,Type,Seasonal Weather,Google Maps,Yr Weather
-Tvindefossen,"落地日可选；扇形层叠瀑布，建议20–30分钟。BGO晚于13:00出发则跳过。",60.72749,6.48932,2026-09-29,Norway,Waterfall,"约4–11°C；阵雨、水雾、湿滑","https://www.google.com/maps/search/?api=1&query=Tvindefossen","https://www.yr.no/en/search?q=Tvindefossen"
-Gudvangen,"纳柔依峡湾内端；山壁从水边直立，9/29短停或9/30游船终点。",60.87865,6.83917,"2026-09-29 / 2026-09-30",Norway,Fjord village,"约5–12°C；低云、湿冷阵雨","https://www.google.com/maps/search/?api=1&query=Gudvangen%20Norway","https://www.yr.no/en/search?q=Gudvangen"
-Aurland,"两晚住宿基地；比Flåm安静，适合根据天气调整观景台与游船顺序。",60.90621,7.19069,"2026-09-29—2026-10-01",Norway,Base,"约5–13°C；晨雾、阵雨、低云","https://www.google.com/maps/search/?api=1&query=Aurland%20Norway","https://www.yr.no/en/search?q=Aurland"
-Stegastein,"650米峡湾观景台；30米木平台俯瞰Aurlandsfjord完整弧线。",60.90836,7.21279,2026-09-30,Norway,Viewpoint,"约0–7°C；强风、雾、薄冰风险","https://www.google.com/maps/search/?api=1&query=Stegastein%20Viewpoint","https://www.yr.no/en/search?q=Stegastein"
-Flåm,"河谷与峡湾码头；作为纳柔依峡湾游船起点，不叠加高山火车。",60.86365,7.11717,2026-09-30,Norway,Fjord port,"约5–12°C；多云、阵雨、甲板风寒","https://www.google.com/maps/search/?api=1&query=Flam%20Norway","https://www.yr.no/en/search?q=Flam"
-Nærøyfjord,"世界遗产窄峡湾；近垂直山壁、瀑布和农舍，建议Flåm至Gudvangen游船。",60.93450,6.93150,2026-09-30,Norway,Fjord cruise,"约5–12°C；低云细雨，甲板需防水保暖","https://www.google.com/maps/search/?api=1&query=Naeroyfjord","https://www.yr.no/en/search?q=Nærøyfjord"
-Oslo Opera / Bjørvika,"长驾后可选的海港建筑散步；按体力随时结束。",59.90750,10.75330,2026-10-01,Norway,City walk,"约7–15°C；阵雨、海风、湿滑石面","https://www.google.com/maps/search/?api=1&query=Oslo%20Opera%20House","https://www.yr.no/en/search?q=Oslo"
-Gamla Stan / Stortorget,"13世纪老城与最古老广场；彩色立面、弯曲石巷、桥梁和水面。",59.32540,18.07080,2026-10-02,Sweden,Old town,"约7–13°C；傍晚降温、阵雨、穿堂风","https://www.google.com/maps/search/?api=1&query=Stortorget%20Stockholm","https://www.yr.no/en/search?q=Gamla%20Stan"
-Vasa Museum,"几乎完整保存的17世纪战舰；建议开门即进，停留2–2.5小时。",59.32800,18.09140,2026-10-03,Sweden,Museum,"室外约7–13°C；雨天稳定选择","https://www.google.com/maps/search/?api=1&query=Vasa%20Museum","https://www.yr.no/en/search?q=Stockholm"
-Djurgården,"皇家绿色岛屿；Vasa之后沿运河散步，降低行程密度。",59.32580,18.12000,2026-10-03,Sweden,Park,"约6–13°C；临水风、短时阵雨","https://www.google.com/maps/search/?api=1&query=Djurgardsbrunnskanalen","https://www.yr.no/en/search?q=Djurgården"
-Stockholm City Hall,"红砖城市地标与诺贝尔晚宴建筑；内部仅随导览参观。",59.32750,18.05440,2026-10-04,Sweden,Architecture,"约7–13°C；水岸风、雨天石阶滑","https://www.google.com/maps/search/?api=1&query=Stockholm%20City%20Hall","https://www.yr.no/en/search?q=Stockholm"
-Södermalm / Monteliusvägen,"生活化街区与500米湖岸观景路；看市政厅、Riddarholmen和日落。",59.31960,18.05780,2026-10-04,Sweden,View walk,"约6–13°C；观景路风大、湿滑","https://www.google.com/maps/search/?api=1&query=Monteliusvagen","https://www.yr.no/en/search?q=Södermalm"
-Östermalms Saluhall,"1888年红砖铸铁食品市场；周一09:30开门，返程前吃早午餐。",59.33600,18.07900,2026-10-05,Sweden,Food market,"约7–13°C；室内为主，不受降雨影响","https://www.google.com/maps/search/?api=1&query=Ostermalms%20Saluhall","https://www.yr.no/en/search?q=Stockholm"
+编号,国家,日期,地点,主题,纬度,经度,建议停留,季节温度,天气重点,Google Maps,Yr 天气
+1,挪威,09.29 / 每晚,Tromsø 港口与 Storgata,北极城市底色,69.6492,18.9553,2–3 小时,3–9°C,阵雨湿雪和强风可能快速切换,https://www.google.com/maps/search/?api=1&query=Tromso%20Harbour,https://www.yr.no/en/search?q=Tromsø
+2,挪威,09.29 可选,北极教堂,三角形海峡地标,69.6489,18.9871,30–45 分钟,3–9°C,过桥海风强体感更低,https://www.google.com/maps/search/?api=1&query=Arctic%20Cathedral%20Tromso,https://www.yr.no/en/search?q=Tromsdalen
+3,挪威,天气最好时,Fjellheisen / Storsteinen,421米全景台,69.6427,18.9986,1–1.5 小时,-1–5°C,山顶易起雾强风薄冰,https://www.google.com/maps/search/?api=1&query=Fjellheisen%20Tromso,https://www.yr.no/en/search?q=Storsteinen%20Tromsø
+4,挪威,09.30,Ersfjordbotn,深色峡湾与尖峰,69.6943,18.6206,30–45 分钟,2–8°C,峡湾风向变化快低云常见,https://www.google.com/maps/search/?api=1&query=Ersfjordbotn,https://www.yr.no/en/search?q=Ersfjordbotn
+5,挪威,09.30 天气好时,Grøtfjord,北向海湾与白沙,69.7770,18.5398,30–60 分钟,2–8°C,暴露海岸阵风横雨明显,https://www.google.com/maps/search/?api=1&query=Grotfjord%20Tromso,https://www.yr.no/en/search?q=Grøtfjord
+6,挪威,09.30,Sommarøy / Hillesøy,白沙渔村群岛,69.6336,18.0073,2 小时,3–9°C,强海风和阵雨常见,https://www.google.com/maps/search/?api=1&query=Sommaroy%20Norway,https://www.yr.no/en/search?q=Sommarøy
+7,挪威,09.30 回程,Kattfjordeidet,荒原山口,69.6425,18.5250,15–25 分钟,0–6°C,雨夹雪雾和结冰概率高于海边,https://www.google.com/maps/search/?api=1&query=Kattfjordeidet,https://www.yr.no/en/search?q=Kattfjordeidet
+8,挪威,10.01 Plan A,Breivikeidet 渡轮码头,雪山渡轮入口,69.6667,19.6333,候船加20分钟船程,1–7°C,风浪可能影响运营,https://www.google.com/maps/search/?api=1&query=Breivikeidet%20Ferry%20Terminal,https://www.yr.no/en/search?q=Breivikeidet
+9,挪威,10.01 Plan A,Svensby / Lyngen Alps,北极山脉,69.6656,19.9033,3–4 小时含午餐,0–7°C,高处积雪低处阵雨,https://www.google.com/maps/search/?api=1&query=Svensby%20Lyngen%20Norway,https://www.yr.no/en/search?q=Svensby
+10,挪威,10.01 Plan B,Tønsvik / Oldervik,无渡轮备用海岸,69.7550,19.6900,4–5 小时含午餐,2–8°C,海风阵雨但路线海拔低,https://www.google.com/maps/search/?api=1&query=Oldervik%20Tromso,https://www.yr.no/en/search?q=Oldervik
+11,瑞典,10.02 / 10.05,Gamla Stan / Stortorget,中世纪老城,59.3254,18.0708,2–3 小时,6–13°C,傍晚降温和石板湿滑,https://www.google.com/maps/search/?api=1&query=Stortorget%20Stockholm,https://www.yr.no/en/search?q=Gamla%20Stan
+12,瑞典,10.03,Vasa Museum,17世纪战舰,59.3280,18.0914,2–2.5 小时,室外6–13°C,雨天最稳主景点,https://www.google.com/maps/search/?api=1&query=Vasa%20Museum,https://www.yr.no/en/search?q=Stockholm
+13,瑞典,10.03,Djurgården,皇家绿色岛屿,59.3258,18.1200,1.5–2 小时,6–13°C,临水风和短时阵雨,https://www.google.com/maps/search/?api=1&query=Djurgardsbrunnskanalen,https://www.yr.no/en/search?q=Djurgården
+14,瑞典,10.04,Stockholm City Hall,诺贝尔晚宴建筑,59.3275,18.0544,导览约45分钟,6–13°C,水岸风强雨天石阶湿滑,https://www.google.com/maps/search/?api=1&query=Stockholm%20City%20Hall,https://www.yr.no/en/search?q=Stockholm
+15,瑞典,10.04,Södermalm / Monteliusvägen,湖岸天际线,59.3196,18.0578,1.5–3 小时,6–13°C,观景路暴露风中,https://www.google.com/maps/search/?api=1&query=Monteliusvagen,https://www.yr.no/en/search?q=Södermalm
+16,瑞典,10.05,Östermalms Saluhall,1888食品市场,59.3360,18.0790,60–75 分钟,6–13°C,室内为主不受降雨影响,https://www.google.com/maps/search/?api=1&query=Ostermalms%20Saluhall,https://www.yr.no/en/search?q=Stockholm
