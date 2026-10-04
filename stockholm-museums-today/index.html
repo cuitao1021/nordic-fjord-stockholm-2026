@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#173c35">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+  <title>斯德哥尔摩今日四馆行程｜2026.10.04</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>
+    :root{
+      --ink:#132c28;
+      --ink-2:#40534e;
+      --paper:#f2eee4;
+      --card:#fffdf7;
+      --green:#173c35;
+      --green-2:#2e6559;
+      --red:#e24931;
+      --yellow:#f0b93d;
+      --blue:#4c91a7;
+      --line:#c9c4b8;
+      --soft:#e4ded0;
+      --shadow:0 18px 52px rgba(25,47,42,.13);
+      --display:"Bodoni 72","Didot","Songti SC",serif;
+      --sans:"Avenir Next","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 8% 2%,rgba(240,185,61,.18),transparent 24rem),
+        linear-gradient(90deg,rgba(19,44,40,.025) 1px,transparent 1px),
+        var(--paper);
+      background-size:auto,32px 32px,auto;
+      font-family:var(--sans);
+      line-height:1.65;
+    }
+    body::before{
+      content:"";
+      position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.18;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.1'/%3E%3C/svg%3E");
+    }
+    a{color:inherit}
+    button,a{touch-action:manipulation}
+    .shell{width:min(1180px,calc(100% - 36px));margin:0 auto}
+    .eyebrow{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:var(--red)}
+    .serif{font-family:var(--display)}
+
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      color:#f8f1df;background:rgba(19,44,40,.95);backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(255,255,255,.12)
+    }
+    .topbar{padding-top:env(safe-area-inset-top)}
+    .topbar .shell{min-height:56px;display:flex;align-items:center;gap:18px}
+    .brand{font-weight:800;letter-spacing:.06em;white-space:nowrap}
+    .nav{display:flex;gap:4px;margin-left:auto;overflow:auto;scrollbar-width:none}
+    .nav::-webkit-scrollbar{display:none}
+    .nav a{font-size:.78rem;text-decoration:none;padding:9px 12px;border-radius:99px;white-space:nowrap;color:#e9e3d4}
+    .nav a:hover{background:rgba(255,255,255,.1)}
+    .clock{font-variant-numeric:tabular-nums;font-size:.76rem;padding-left:14px;border-left:1px solid rgba(255,255,255,.22);white-space:nowrap}
+
+    .hero{position:relative;overflow:hidden;padding:76px 0 50px}
+    .hero::after{
+      content:"82";position:absolute;right:-.02em;top:-.28em;
+      font:700 clamp(11rem,32vw,28rem)/1 var(--display);color:rgba(23,60,53,.055);letter-spacing:-.08em;pointer-events:none
+    }
+    .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.25fr .75fr;gap:54px;align-items:end}
+    .date-line{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+    .date-pill{background:var(--red);color:white;padding:5px 11px;border-radius:999px;font-size:.72rem;font-weight:800;letter-spacing:.08em}
+    .weather{font-size:.83rem;color:var(--ink-2)}
+    h1{font:500 clamp(3.6rem,8.3vw,7.5rem)/.86 var(--display);letter-spacing:-.055em;margin:0;max-width:850px}
+    h1 em{display:block;color:var(--green-2);font-style:italic;margin-left:.75em}
+    .hero-copy{margin:26px 0 0;max-width:730px;font-size:1.06rem;color:var(--ink-2)}
+    .hero-side{border-left:1px solid var(--line);padding-left:30px;margin-bottom:6px}
+    .hero-side .big{font:500 4.6rem/.9 var(--display);color:var(--red)}
+    .hero-side p{margin:12px 0 0;color:var(--ink-2)}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:3px;min-height:44px;padding:12px 17px;text-decoration:none;font:700 .82rem/1 var(--sans);cursor:pointer;transition:.2s ease}
+    .btn.primary{background:var(--green);color:white}
+    .btn.secondary{border:1px solid var(--green);color:var(--green);background:transparent}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(19,44,40,.14)}
+
+    .route-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,253,247,.44)}
+    .route-strip .shell{display:grid;grid-template-columns:1.15fr repeat(3,1fr);align-items:stretch}
+    .route-cell{position:relative;padding:22px 20px;border-right:1px solid var(--line)}
+    .route-cell:first-child{padding-left:0}
+    .route-cell:last-child{border-right:0}
+    .route-cell b{display:block;font:600 1.35rem/1.2 var(--display);margin-bottom:4px}
+    .route-cell small{display:block;color:var(--ink-2)}
+    .route-cell:not(:last-child)::after{content:"→";position:absolute;right:-9px;top:50%;transform:translateY(-50%);background:var(--paper);color:var(--red);padding:2px;z-index:2}
+
+    .map-section{padding-top:54px}
+    .map-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(290px,.45fr);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);min-height:570px}
+    #tripMap{height:570px;min-width:0;background:#dce6df;position:relative;z-index:1}
+    .map-fallback{position:absolute;inset:0;display:grid;place-items:center;padding:40px;text-align:center;color:var(--ink-2);background:linear-gradient(135deg,#dce6df,#f2eee4);z-index:0}
+    .map-side{padding:28px 26px;background:var(--green);color:#f8f1df;display:flex;flex-direction:column}
+    .map-side h3{font:500 2rem/1 var(--display);margin:7px 0 10px}
+    .map-side>p{font-size:.82rem;color:#c5d2ce;margin:0 0 22px}
+    .map-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:23px}
+    .map-controls button{min-height:44px;border:1px solid rgba(255,255,255,.28);background:transparent;color:white;font:800 .75rem/1 var(--sans);border-radius:3px;cursor:pointer}
+    .map-controls button.active,.map-controls button:hover{background:var(--yellow);color:#2e260f;border-color:var(--yellow)}
+    .map-legend{display:grid;gap:12px;margin-top:auto}
+    .legend-row{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:center;font-size:.8rem;color:#d9e2df}
+    .legend-line{height:4px;border-radius:9px;background:var(--c)}
+    .legend-line.dashed{background:repeating-linear-gradient(90deg,var(--c) 0 7px,transparent 7px 12px)}
+    .map-note{margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.16);font-size:.72rem;color:#aebfba}
+    .leaflet-container{font-family:var(--sans);background:#dce6df}
+    .leaflet-control-attribution{font-size:9px!important}
+    .route-pin{border:0!important;background:transparent!important}
+    .route-pin span{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:white;border:3px solid var(--card);box-shadow:0 4px 16px rgba(13,38,33,.3);font:800 .75rem/1 var(--sans)}
+    .route-pin.hotel span{background:var(--red)}
+    .route-pin.transfer span{background:var(--yellow);color:#362b0b}
+    .leaflet-popup-content-wrapper{border-radius:3px;box-shadow:0 12px 28px rgba(20,43,38,.18)}
+    .leaflet-popup-content{margin:13px 15px;font:500 .78rem/1.45 var(--sans)}
+    .leaflet-popup-content b{display:block;font:600 1rem/1.2 var(--display);margin-bottom:3px}
+
+    section{padding:82px 0}
+    .section-head{display:grid;grid-template-columns:.72fr 1.28fr;gap:60px;align-items:end;margin-bottom:38px}
+    .section-head h2{font:500 clamp(2.5rem,5vw,4.7rem)/.95 var(--display);letter-spacing:-.04em;margin:8px 0 0}
+    .section-head p{margin:0;color:var(--ink-2);max-width:640px}
+
+    .today-alert{display:none;margin:0 0 28px;padding:13px 17px;background:var(--yellow);color:#382b0b;font-weight:700;border-radius:3px}
+    .today-alert.show{display:block}
+    .timeline{position:relative;display:grid;gap:0}
+    .timeline::before{content:"";position:absolute;left:105px;top:35px;bottom:35px;width:1px;background:var(--line)}
+    .stop{position:relative;display:grid;grid-template-columns:106px 1fr;margin-bottom:22px;animation:rise .65s both;animation-delay:calc(var(--i) * .08s)}
+    .stop-time{padding:27px 22px 0 0;text-align:right;font:600 1.15rem/1 var(--display);font-variant-numeric:tabular-nums}
+    .stop-card{position:relative;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);overflow:hidden}
+    .stop-card::before{content:"";position:absolute;width:11px;height:11px;border-radius:50%;background:var(--red);left:-7px;top:31px;box-shadow:0 0 0 6px var(--paper);z-index:3}
+    .stop-main{padding:28px 30px}
+    .stop-no{font-size:.7rem;letter-spacing:.18em;color:var(--red);font-weight:800;text-transform:uppercase}
+    .stop h3{font:500 clamp(1.7rem,3vw,2.6rem)/1.05 var(--display);margin:8px 0 9px}
+    .stop h3 span{display:block;font:600 .72rem/1.3 var(--sans);letter-spacing:.08em;color:var(--green-2);margin-top:7px}
+    .stop p{margin:0;color:var(--ink-2)}
+    .focus{margin:18px 0 0;padding:13px 15px;background:#f0ecdf;border-left:3px solid var(--yellow);font-size:.88rem;color:var(--ink)}
+    .stop-meta{background:var(--green);color:#f7f0df;padding:27px 26px;display:flex;flex-direction:column;justify-content:space-between}
+    .stop-meta dl{margin:0;display:grid;gap:12px}
+    .stop-meta div{display:flex;justify-content:space-between;gap:20px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.15)}
+    .stop-meta dt{color:#b8c9c4;font-size:.72rem;letter-spacing:.08em}
+    .stop-meta dd{margin:0;text-align:right;font-weight:750;font-size:.84rem}
+    .meta-link{margin-top:22px;color:white;text-underline-offset:4px;font-size:.82rem;font-weight:800}
+    .stop.transit .stop-card{box-shadow:none;background:transparent;border-style:dashed;grid-template-columns:1fr}
+    .stop.transit .stop-main{display:grid;grid-template-columns:150px 1fr auto;gap:22px;align-items:center;padding:20px 24px}
+    .transport-mark{font:500 1.7rem/1 var(--display);color:var(--red)}
+    .stop.transit h3{font:600 1rem/1.2 var(--sans);margin:0 0 5px}
+    .stop.transit p{font-size:.84rem}
+    .map-link{white-space:nowrap;font-size:.78rem;font-weight:800;text-decoration:none;border-bottom:1px solid;padding-bottom:2px}
+    .map-link:hover{color:var(--red)}
+    .stop.active .stop-card{outline:3px solid var(--yellow);outline-offset:3px}
+    .stop.done{opacity:.62}
+
+    .decision{margin-top:34px;display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+    .decision-main{background:var(--yellow);padding:28px 30px;position:relative;overflow:hidden}
+    .decision-main::after{content:"↗";position:absolute;right:17px;bottom:-28px;font:700 7rem/1 var(--display);color:rgba(255,255,255,.32)}
+    .decision-main h3,.decision-side h3{font:500 2rem/1 var(--display);margin:0 0 10px}
+    .decision-main p,.decision-side p{margin:0;max-width:700px}
+    .decision-side{border:1px solid var(--line);padding:28px 30px;background:rgba(255,255,255,.28)}
+
+    .ticket-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+    .ticket{position:relative;background:var(--card);border:1px solid var(--line);padding:25px 22px;min-height:305px;display:flex;flex-direction:column;overflow:hidden}
+    .ticket::after{content:"";position:absolute;width:26px;height:26px;border-radius:50%;background:var(--paper);right:-14px;top:58px;border:1px solid var(--line)}
+    .ticket .num{font:500 3.6rem/.85 var(--display);color:var(--soft);position:absolute;right:16px;top:10px}
+    .ticket h3{font:500 1.55rem/1.05 var(--display);margin:35px 0 7px;max-width:150px}
+    .ticket .price{font-weight:800;color:var(--red);margin-bottom:10px}
+    .ticket p{font-size:.82rem;color:var(--ink-2);margin:0 0 14px}
+    .ticket .buy{margin-top:auto;display:block;background:var(--green);color:white;text-align:center;text-decoration:none;padding:11px 12px;font-size:.78rem;font-weight:800;border-radius:2px}
+    .ticket .buy:hover{background:var(--red)}
+    .cost-note{margin-top:18px;padding:17px 20px;border:1px solid var(--line);display:flex;justify-content:space-between;gap:24px;align-items:center}
+    .cost-note b{font-family:var(--display);font-size:1.45rem;font-weight:600}
+    .cost-note span{font-size:.82rem;color:var(--ink-2);text-align:right}
+
+    .transit-panel{background:var(--green);color:#f8f1df;position:relative;overflow:hidden}
+    .transit-panel::before{content:"7";position:absolute;right:-.08em;top:-.42em;font:700 33rem/1 var(--display);color:rgba(255,255,255,.035)}
+    .transit-panel .section-head p{color:#c1d0cc}
+    .transit-panel .eyebrow{color:#ff866f}
+    .transit-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;position:relative;z-index:1}
+    .fare-card{border:1px solid rgba(255,255,255,.19);padding:30px;background:rgba(255,255,255,.055)}
+    .fare-card h3{font:500 2.05rem/1 var(--display);margin:0 0 15px}
+    .fare-price{font:500 4.8rem/.9 var(--display);color:var(--yellow);margin:18px 0 13px}
+    .fare-price small{font:700 .8rem/1 var(--sans);letter-spacing:.1em;color:#c1d0cc}
+    .fare-card p{color:#c1d0cc;margin:0}
+    .rules{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+    .rules li{display:grid;grid-template-columns:32px 1fr;gap:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.13);font-size:.88rem;color:#d5dfdc}
+    .rules b{width:28px;height:28px;border-radius:50%;background:var(--red);display:grid;place-items:center;color:white;font-size:.72rem}
+    .fare-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+    .fare-actions a{color:#fff;border:1px solid rgba(255,255,255,.35);text-decoration:none;padding:9px 12px;border-radius:2px;font-size:.77rem;font-weight:800}
+    .pass-banner{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;padding:22px 25px;margin-bottom:16px;background:var(--yellow);color:#2f270e;position:relative;z-index:1}
+    .pass-check{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:white;font-size:1.35rem;font-weight:900}
+    .pass-banner h3{font:500 1.8rem/1 var(--display);margin:0 0 5px}
+    .pass-banner p{margin:0;font-size:.82rem}
+    .pass-banner b{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+    .ride-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative;z-index:1}
+    .ride{border:1px solid rgba(255,255,255,.18);padding:20px;background:rgba(255,255,255,.055);min-height:270px;display:flex;flex-direction:column}
+    .ride-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:20px}
+    .ride-no{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--red);color:white;font-weight:900;font-size:.75rem}
+    .ride-time{font-size:.72rem;color:#bacbc6;font-variant-numeric:tabular-nums}
+    .ride-line{font:500 2.5rem/.85 var(--display);color:var(--yellow);margin-bottom:13px}
+    .ride h3{font:700 .92rem/1.35 var(--sans);margin:0 0 8px;color:white}
+    .ride p{font-size:.78rem;color:#c8d5d1;margin:0 0 13px}
+    .ride .do{margin-top:auto;padding:10px 11px;background:rgba(255,255,255,.11);border-left:3px solid var(--yellow);font-size:.75rem;color:white}
+    .validation-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;position:relative;z-index:1}
+    .validation{border:1px solid rgba(255,255,255,.18);padding:20px 22px;color:#c8d5d1;font-size:.82rem}
+    .validation strong{display:block;color:white;font:600 1.2rem/1 var(--display);margin-bottom:8px}
+
+    .prep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .prep{padding:23px 24px;border-top:4px solid var(--red);background:rgba(255,255,255,.38)}
+    .prep:nth-child(2){border-color:var(--yellow)}
+    .prep:nth-child(3){border-color:var(--blue)}
+    .prep h3{font:500 1.55rem/1.1 var(--display);margin:0 0 9px}
+    .prep p{font-size:.84rem;color:var(--ink-2);margin:0}
+    .mobile-share{margin-top:22px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;padding:22px 24px;background:var(--card);border:1px solid var(--line)}
+    .mobile-share h3{font:500 1.7rem/1 var(--display);margin:0 0 7px}
+    .mobile-share p{font-size:.82rem;color:var(--ink-2);margin:0}
+    .mobile-share .phone-mark{font:500 3.4rem/1 var(--display);color:var(--red)}
+    .checklist{margin-top:30px;border-top:1px solid var(--line)}
+    .check-item{display:flex;gap:14px;align-items:flex-start;padding:15px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+    .check-item input{width:19px;height:19px;accent-color:var(--red);margin-top:3px}
+    .check-item span{font-size:.9rem}
+    .check-item:has(input:checked) span{text-decoration:line-through;color:#7e8884}
+
+    .sources{padding-top:45px;border-top:1px solid var(--line)}
+    .sources h2{font:500 2rem/1 var(--display);margin:0 0 18px}
+    .source-links{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .source-links a{display:flex;justify-content:space-between;gap:15px;text-decoration:none;padding:12px 0;border-bottom:1px solid var(--line);font-size:.78rem}
+    .source-links a span:last-child{color:var(--red);font-weight:800}
+    .source-links a:hover span:first-child{text-decoration:underline;text-underline-offset:4px}
+    footer{padding:28px 0 42px;color:var(--ink-2);font-size:.72rem}
+
+    @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+    @media (max-width:900px){
+      .clock{display:none}.hero-grid,.section-head,.transit-grid{grid-template-columns:1fr}.hero-side{border-left:0;border-top:1px solid var(--line);padding:24px 0 0}.route-strip .shell{grid-template-columns:repeat(2,1fr)}.route-cell:nth-child(2){border-right:0}.route-cell:first-child{padding-left:20px}.map-layout{grid-template-columns:1fr;min-height:0}.map-side{min-height:320px}.stop-card{grid-template-columns:1fr}.stop-meta{min-height:220px}.ticket-grid{grid-template-columns:repeat(2,1fr)}.ride-grid{grid-template-columns:repeat(2,1fr)}.prep-grid,.source-links{grid-template-columns:1fr}.decision{grid-template-columns:1fr}.section-head{gap:18px}.section-head p{max-width:none}
+    }
+    @media (max-width:620px){
+      .shell{width:min(100% - 22px,1180px)}.topbar .shell{min-height:50px}.brand{font-size:.75rem}.nav a{min-height:42px;display:flex;align-items:center;padding:7px 8px;font-size:.7rem}.hero{padding:50px 0 35px}h1{font-size:3.35rem}.hero-copy{font-size:.94rem}.hero-side .big{font-size:3.5rem}.route-strip .shell{width:100%}.route-cell{padding:16px 13px}.route-cell:first-child{padding-left:13px}.route-cell b{font-size:1rem}.route-cell small{font-size:.7rem}section{padding:58px 0}.map-section{padding-top:42px}#tripMap{height:62vh;min-height:420px;max-height:570px}.map-side{padding:23px 20px;min-height:290px}.timeline::before{left:60px}.stop{grid-template-columns:60px 1fr}.stop-time{font-size:.8rem;padding-right:13px}.stop-main{padding:22px 20px}.stop-meta{padding:22px 20px;min-height:190px}.stop.transit .stop-main{grid-template-columns:1fr;gap:8px}.transport-mark{font-size:1.35rem}.map-link{justify-self:start;min-height:42px;display:flex;align-items:center}.ticket-grid,.ride-grid,.validation-grid{grid-template-columns:1fr}.cost-note,.pass-banner,.mobile-share{align-items:flex-start;grid-template-columns:1fr}.cost-note span{text-align:left}.fare-card{padding:23px}.fare-price{font-size:4rem}.pass-banner b{white-space:normal}.ride{min-height:0}.mobile-share .phone-mark{display:none}
+    }
+    @media print{
+      .topbar,.hero-actions,.buy,.fare-actions,.map-link,.map-controls{display:none!important}body{background:white}.hero{padding-top:25px}.hero::after,body::before,.transit-panel::before{display:none}.map-layout{box-shadow:none;grid-template-columns:1fr}.map-side{min-height:0}.stop-card,.ticket,.ride{box-shadow:none;break-inside:avoid}.stop{break-inside:avoid}section{padding:35px 0}.transit-panel{background:white!important;color:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}.transit-panel .section-head p,.fare-card p,.rules li,.ride p,.validation{color:var(--ink-2)}.fare-price{color:var(--red)}.ride h3,.validation strong{color:var(--ink)}.stop-meta{background:#e9eee9;color:var(--ink)}.stop-meta dt{color:var(--ink-2)}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell">
+      <div class="brand">STOCKHOLM / 04 OCT</div>
+      <nav class="nav" aria-label="页面导航">
+        <a href="#map-view">地图</a><a href="#transit">怎么坐车</a><a href="#route">行程</a><a href="#tickets">门票</a><a href="#ready">出发前</a>
+      </nav>
+      <div class="clock" id="clock">斯德哥尔摩时间</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div>
+          <div class="date-line"><span class="date-pill">TODAY · 周日</span><span class="weather">多云转晴 · 11–15°C · 无明显降雨</span></div>
+          <h1>四座博物馆，<em>一条顺路动线。</em></h1>
+          <p class="hero-copy">从 Stockholm Sheraton 出发，先抢最早闭馆的瓦萨，再沿水岸一路向东南推进；把开放至深夜的摄影博物馆留到最后。全程不必打车，也不需要折返。</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#map-view">先看地图 ↓</a>
+            <a class="btn secondary" href="#transit">查看怎么坐车</a>
+            <button class="btn secondary" type="button" onclick="window.print()">打印 / 保存 PDF</button>
+          </div>
+        </div>
+        <aside class="hero-side">
+          <div class="eyebrow">今日策略</div>
+          <div class="big">10:00 → 19:15</div>
+          <p><strong>四馆全部可达。</strong>关键是 16:35 前离开现代艺术博物馆；摄影博物馆开到 23:00，是全天的时间缓冲。</p>
+        </aside>
+      </div>
+    </section>
+
+    <div class="route-strip" aria-label="路线概览">
+      <div class="shell">
+        <div class="route-cell"><b>喜来登</b><small>Tegelbacken 6</small></div>
+        <div class="route-cell"><b>瓦萨博物馆</b><small>10:00 · 先看</small></div>
+        <div class="route-cell"><b>国立 → 现代</b><small>水岸相连 · 步行</small></div>
+        <div class="route-cell"><b>摄影博物馆</b><small>17:15 · 压轴</small></div>
+      </div>
+    </div>
+
+    <section class="map-section" id="map-view">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="eyebrow">01 · MAP VIEW</span><h2>沿着水面，<br>一路向东南。</h2></div>
+          <p>地图里的蓝线是 7 号电车，青色是 82 号渡轮，红线是晚间地铁返程。手机上可双指缩放、点数字查看站名；底图需要联网，文字攻略不需要。</p>
+        </div>
+        <div class="map-layout">
+          <div id="tripMap" role="application" aria-label="斯德哥尔摩四馆行程交互地图">
+            <div class="map-fallback">正在加载地图……<br>如果底图未出现，下面的乘车卡和实时导航仍可正常使用。</div>
+          </div>
+          <aside class="map-side">
+            <span class="eyebrow">点选查看局部</span>
+            <h3>一张图看懂转场</h3>
+            <p>彩色线路是今天用到的交通方式，不代表逐弯导航；上车前仍以 SL App 的实时站台和班次为准。</p>
+            <div class="map-controls" aria-label="地图线路筛选">
+              <button type="button" class="active" data-map-leg="all">全程</button>
+              <button type="button" data-map-leg="tram">7 号电车</button>
+              <button type="button" data-map-leg="ferry">82 号渡轮</button>
+              <button type="button" data-map-leg="return">晚间返程</button>
+            </div>
+            <div class="map-legend">
+              <div class="legend-row"><span class="legend-line" style="--c:#257ca3"></span><span><strong>7号电车</strong> · 去瓦萨、回 Nybroplan</span></div>
+              <div class="legend-row"><span class="legend-line dashed" style="--c:#d96745"></span><span><strong>步行</strong> · 博物馆与码头之间</span></div>
+              <div class="legend-row"><span class="legend-line" style="--c:#27a7a0"></span><span><strong>82号渡轮</strong> · Skeppsholmen → Slussen</span></div>
+              <div class="legend-row"><span class="legend-line" style="--c:#d63e49"></span><span><strong>地铁返程</strong> · Slussen → T-Centralen</span></div>
+            </div>
+            <div class="map-note">地图：© OpenStreetMap contributors。线路为便于理解的示意；点击下方每段“实时导航”获取实时步行入口和站台。</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="route">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="eyebrow">02 · THE ROUTE</span><h2>按闭馆时间走，<br>而不是按距离猜。</h2></div>
+          <p>瓦萨与国立博物馆都在 17:00 关门；现代艺术博物馆 18:00 关门，而且 Brassaï 特展<strong>今天最后一天</strong>；摄影博物馆开到 23:00。以下时间已经留出步行、等车和进馆缓冲。</p>
+        </div>
+        <div class="today-alert" id="todayAlert"></div>
+
+        <div class="timeline">
+          <article class="stop transit" data-start="552" data-end="600" style="--i:0">
+            <div class="stop-time">09:12</div>
+            <div class="stop-card"><div class="stop-main">
+              <div class="transport-mark">TRAM 7</div>
+              <div><h3>酒店 → 瓦萨</h3><p>步行约 9 分钟到 <strong>T-Centralen Spårv</strong>，乘 7 号电车（往 Waldemarsudde）到 <strong>Nordiska museet/Vasamuseet</strong>，下车再走约 4 分钟。</p></div>
+              <a class="map-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Sheraton%20Stockholm%20Hotel%2C%20Tegelbacken%206&amp;destination=Vasa%20Museum%2C%20Gal%C3%A4rvarvsv%C3%A4gen%2014&amp;travelmode=transit" target="_blank" rel="noreferrer">打开实时导航 ↗</a>
+            </div></div>
+          </article>
+
+          <article class="stop" data-start="600" data-end="695" style="--i:1">
+            <div class="stop-time">10:00</div>
+            <div class="stop-card">
+              <div class="stop-main">
+                <div class="stop-no">Museum 01 · 95 min</div>
+                <h3>瓦萨博物馆 <span>VASAMUSEET · Galärvarvsvägen 14</span></h3>
+                <p>开门即进。先环绕主船体看不同高度，再看沉船原因、打捞与保存展。馆内恒温约 18–20°C，薄外套不要寄存得太深。</p>
+                <div class="focus"><strong>卡点：</strong>10:30 英语公开导览约 25 分钟，包含在门票内；到信息台再确认当天场次。</div>
+              </div>
+              <aside class="stop-meta"><dl>
+                <div><dt>今日开放</dt><dd>10:00–17:00</dd></div><div><dt>成人</dt><dd>195 SEK</dd></div><div><dt>0–18 岁</dt><dd>免费</dd></div><div><dt>离馆底线</dt><dd>11:35</dd></div>
+              </dl><a class="meta-link" href="https://www.vasamuseet.se/en/visit/buy-ticket" target="_blank" rel="noreferrer">官方购票 ↗</a></aside>
+            </div>
+          </article>
+
+          <article class="stop transit" data-start="695" data-end="720" style="--i:2">
+            <div class="stop-time">11:35</div>
+            <div class="stop-card"><div class="stop-main">
+              <div class="transport-mark">TRAM 7</div>
+              <div><h3>瓦萨 → 国立博物馆</h3><p>回到原站乘 7 号电车往 T-Centralen，在 <strong>Nybroplan</strong> 下车；沿水边向南步行约 8–10 分钟。</p></div>
+              <a class="map-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Vasa%20Museum%2C%20Gal%C3%A4rvarvsv%C3%A4gen%2014&amp;destination=Nationalmuseum%2C%20S%C3%B6dra%20Blasieholmshamnen%202&amp;travelmode=transit" target="_blank" rel="noreferrer">打开实时导航 ↗</a>
+            </div></div>
+          </article>
+
+          <article class="stop" data-start="720" data-end="800" style="--i:3">
+            <div class="stop-time">12:00</div>
+            <div class="stop-card">
+              <div class="stop-main">
+                <div class="stop-no">Museum 02 · 80 min</div>
+                <h3>国立博物馆 <span>NATIONALMUSEUM · Södra Blasieholmshamnen 2</span></h3>
+                <p>时间有限，优先二、三层绘画与设计主线，不追求逐件看完。门票含常设与临展；线上票仍需在入口层信息台换入场标识。</p>
+                <div class="focus"><strong>取舍：</strong>如果瓦萨晚了 15 分钟，这里压缩到 65 分钟；不要挤占现代艺术博物馆的 Brassaï 末日展时段。</div>
+              </div>
+              <aside class="stop-meta"><dl>
+                <div><dt>周日开放</dt><dd>11:00–17:00</dd></div><div><dt>成人</dt><dd>160 SEK</dd></div><div><dt>20 岁以下</dt><dd>免费</dd></div><div><dt>建议离馆</dt><dd>13:20</dd></div>
+              </dl><a class="meta-link" href="https://nationalmuseum.biljetto.com/evenemang/0025-entrebiljettnationalmuseum/?lang=EN" target="_blank" rel="noreferrer">官方购票 ↗</a></aside>
+            </div>
+          </article>
+
+          <article class="stop transit" data-start="800" data-end="855" style="--i:4">
+            <div class="stop-time">13:20</div>
+            <div class="stop-card"><div class="stop-main">
+              <div class="transport-mark">LUNCH + WALK</div>
+              <div><h3>午餐后跨桥去现代</h3><p>在国立博物馆餐厅/咖啡区快速用餐约 35 分钟；13:55 出发，经 Skeppsholmsbron 步行约 10–12 分钟到现代艺术博物馆。</p></div>
+              <a class="map-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Nationalmuseum%2C%20S%C3%B6dra%20Blasieholmshamnen%202&amp;destination=Moderna%20Museet%2C%20Exercisplan%204&amp;travelmode=walking" target="_blank" rel="noreferrer">打开步行线 ↗</a>
+            </div></div>
+          </article>
+
+          <article class="stop" data-start="855" data-end="995" style="--i:5">
+            <div class="stop-time">14:15</div>
+            <div class="stop-card">
+              <div class="stop-main">
+                <div class="stop-no">Museum 03 · 140 min</div>
+                <h3>现代艺术博物馆 <span>MODERNA MUSEET · Exercisplan 4</span></h3>
+                <p>第一站直奔 <strong>Brassaï — The Secret Signs of Paris</strong>，今天（10 月 4 日）闭展；余下时间再看馆藏与超现实主义单元。</p>
+                <div class="focus"><strong>今天限定：</strong>14:15 有瑞典语亲子导览（7 岁以上，成人 170 SEK 含入场）。不懂瑞典语则直接按自己的节奏看展。</div>
+              </div>
+              <aside class="stop-meta"><dl>
+                <div><dt>周日开放</dt><dd>10:00–18:00</dd></div><div><dt>成人现场</dt><dd>170 SEK</dd></div><div><dt>成人线上</dt><dd>160 SEK</dd></div><div><dt>18 岁以下</dt><dd>免费</dd></div>
+              </dl><a class="meta-link" href="https://tickets.modernamuseet.se/en-gb/entrance-tickets" target="_blank" rel="noreferrer">官方购票 ↗</a></aside>
+            </div>
+          </article>
+
+          <article class="stop transit" data-start="995" data-end="1035" style="--i:6">
+            <div class="stop-time">16:35</div>
+            <div class="stop-card"><div class="stop-main">
+              <div class="transport-mark">FERRY 82</div>
+              <div><h3>现代 → 摄影博物馆</h3><p>步行约 8 分钟到 <strong>Skeppsholmen brygga</strong>，看 SL App：若 12 分钟内有停靠本站的 82 号船，按柱上按钮示意上船，到 Slussen 后沿水岸走 800 米；若船久等/跳站，直接步行全程约 30–35 分钟。</p></div>
+              <a class="map-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Moderna%20Museet%2C%20Exercisplan%204&amp;destination=Fotografiska%20Stockholm%2C%20Stadsg%C3%A5rdshamnen%2022&amp;travelmode=transit" target="_blank" rel="noreferrer">打开实时导航 ↗</a>
+            </div></div>
+          </article>
+
+          <article class="stop" data-start="1035" data-end="1155" style="--i:7">
+            <div class="stop-time">17:15</div>
+            <div class="stop-card">
+              <div class="stop-main">
+                <div class="stop-no">Museum 04 · 120 min</div>
+                <h3>摄影博物馆 <span>FOTOGRAFISKA · Stadsgårdshamnen 22</span></h3>
+                <p>压轴安排没有闭馆压力。先看当前主展，再到高层水景区域休息。周日正式餐厅不开晚餐，酒吧营业到约 21:00；正餐建议看完后去 Slussen / Södermalm。</p>
+                <div class="focus"><strong>缓冲馆：</strong>若前面延误，可把入馆时间顺延；博物馆 23:00 关门，最晚入场通常为闭馆前 30 分钟。</div>
+              </div>
+              <aside class="stop-meta"><dl>
+                <div><dt>今日开放</dt><dd>10:00–23:00</dd></div><div><dt>成人标准</dt><dd>195 SEK</dd></div><div><dt>13–25 岁</dt><dd>135 SEK</dd></div><div><dt>0–12 岁</dt><dd>免费</dd></div>
+              </dl><a class="meta-link" href="https://tickets-stockholm.fotografiska.com/productDetail/89479?lang=en" target="_blank" rel="noreferrer">官方分时购票 ↗</a></aside>
+            </div>
+          </article>
+
+          <article class="stop transit" data-start="1155" data-end="1260" style="--i:8">
+            <div class="stop-time">19:15</div>
+            <div class="stop-card"><div class="stop-main">
+              <div class="transport-mark">DINNER</div>
+              <div><h3>Slussen 晚餐 → 返回酒店</h3><p>沿水岸步行约 12 分钟回 Slussen，在 Södermalm 用餐；返程乘红线或绿线地铁到 <strong>T-Centralen</strong>，再步行约 8 分钟回 Sheraton。</p></div>
+              <a class="map-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Fotografiska%20Stockholm%2C%20Stadsg%C3%A5rdshamnen%2022&amp;destination=Sheraton%20Stockholm%20Hotel%2C%20Tegelbacken%206&amp;travelmode=transit" target="_blank" rel="noreferrer">返程导航 ↗</a>
+            </div></div>
+          </article>
+        </div>
+
+        <div class="decision">
+          <div class="decision-main"><h3>晚点时怎么砍？</h3><p>先砍午餐时长，再把国立博物馆压缩到 60–65 分钟；<strong>不要删瓦萨的 10:30 导览，也不要错过今天闭展的 Brassaï。</strong>摄影博物馆可无限后移到晚餐后。</p></div>
+          <div class="decision-side"><h3>若 09:30 以后才出门</h3><p>仍按同一顺序走，但瓦萨控制在 75 分钟，国立控制在 60 分钟，午餐改为外带三明治。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tickets">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="eyebrow">03 · TICKETS</span><h2>现在买什么，<br>现场买什么。</h2></div>
+          <p>优先把现代艺术博物馆和摄影博物馆的分时票锁定。瓦萨与国立的预售票都不提供排队优先权，但提前买好可少一次现场操作。</p>
+        </div>
+        <div class="ticket-grid">
+          <article class="ticket"><span class="num">01</span><h3>瓦萨博物馆</h3><div class="price">195 SEK / 成人</div><p>10–12 月季节价。预购不免排队；现场只收卡。官网购票页可能先显示通用价，按 10/4 日期结算。</p><a class="buy" href="https://www.vasamuseet.se/en/visit/buy-ticket" target="_blank" rel="noreferrer">去官方票页</a></article>
+          <article class="ticket"><span class="num">02</span><h3>国立博物馆</h3><div class="price">160 SEK / 成人</div><p>票在当天有效，含馆藏与临展；线上票到入口层换入场标识。20 岁以下免费，但仍需在柜台登记。</p><a class="buy" href="https://nationalmuseum.biljetto.com/evenemang/0025-entrebiljettnationalmuseum/?lang=EN" target="_blank" rel="noreferrer">去官方票页</a></article>
+          <article class="ticket"><span class="num">03</span><h3>现代艺术博物馆</h3><div class="price">线上 160 / 现场 170 SEK</div><p>线上便宜 10 SEK；票与日期绑定，通常不可改期或退款。18 岁以下免费。</p><a class="buy" href="https://tickets.modernamuseet.se/en-gb/entrance-tickets" target="_blank" rel="noreferrer">买 10 月 4 日票</a></article>
+          <article class="ticket"><span class="num">04</span><h3>摄影博物馆</h3><div class="price">标准 195 SEK</div><p>官网按日期和时段浮动，当前票页显示成人优惠可低至约 150 SEK；以结算页为准。</p><a class="buy" href="https://tickets-stockholm.fotografiska.com/productDetail/89479?lang=en" target="_blank" rel="noreferrer">选 17:00 后时段</a></article>
+        </div>
+        <div class="cost-note"><b>成人四馆约 665–710 SEK / 人</b><span>差异主要来自 Fotografiska 的分时折扣；你们已有 SL 1 日票，今天所有规划交通均无需再买票。</span></div>
+      </div>
+    </section>
+
+    <section class="transit-panel" id="transit">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="eyebrow">04 · HOW TO RIDE</span><h2>票已买好，<br>照这四段坐。</h2></div>
+          <p>你们的 SL 1 日票覆盖今天用到的 7 号电车、82 号通勤渡轮和红/绿线地铁。不要再刷银行卡买单程票；只需保证 1 日票已经激活并随时可出示。</p>
+        </div>
+        <div class="pass-banner">
+          <div class="pass-check">✓</div>
+          <div><h3>SL 1 日票已覆盖全线</h3><p>7 号电车 + 82 号渡轮 + 红/绿线地铁；有效期从首次启用起连续 24 小时。</p></div>
+          <b>无需额外付费</b>
+        </div>
+        <div class="ride-grid">
+          <article class="ride">
+            <div class="ride-top"><span class="ride-no">1</span><span class="ride-time">09:12 出发</span></div>
+            <div class="ride-line">7 号电车</div>
+            <h3>T-Centralen Spårv<br>→ Nordiska museet/Vasamuseet</h3>
+            <p>从酒店向北步行约 9 分钟到电车站。认准车头方向 <strong>Waldemarsudde</strong>，车程约 11 分钟。</p>
+            <div class="do">下车后按 “Vasamuseet” 指示步行约 4 分钟。</div>
+          </article>
+          <article class="ride">
+            <div class="ride-top"><span class="ride-no">2</span><span class="ride-time">11:35 左右</span></div>
+            <div class="ride-line">7 号电车</div>
+            <h3>Nordiska museet/Vasamuseet<br>→ Nybroplan</h3>
+            <p>从来时站台乘反方向，认准 <strong>T-Centralen</strong>。在 Nybroplan 下车，不要一直坐回总站。</p>
+            <div class="do">下车后沿水岸向南走 8–10 分钟到 Nationalmuseum。</div>
+          </article>
+          <article class="ride">
+            <div class="ride-top"><span class="ride-no">3</span><span class="ride-time">16:43 左右</span></div>
+            <div class="ride-line">82 号渡轮</div>
+            <h3>Skeppsholmen brygga<br>→ Slussen</h3>
+            <p>现代艺术博物馆步行约 8 分钟到码头。先在 SL App 确认该班<strong>停 Skeppsholmen</strong>，方向选 Slussen。</p>
+            <div class="do">到码头一定按柱上的呼叫按钮，船长才知道有人要上船。</div>
+          </article>
+          <article class="ride">
+            <div class="ride-top"><span class="ride-no">4</span><span class="ride-time">晚餐后</span></div>
+            <div class="ride-line">红 / 绿线</div>
+            <h3>Slussen T-bana<br>→ T-Centralen</h3>
+            <p>进入地铁后，选择开往市中心/北向且下一站为 <strong>Gamla stan</strong> 的红线或绿线；第 2 站下车。</p>
+            <div class="do">T-Centralen 出站后步行约 8 分钟回 Sheraton。</div>
+          </article>
+        </div>
+        <div class="validation-grid">
+          <div class="validation"><strong>如果票在 SL App</strong>第一程上车前手动激活；之后保持手机有电，查票时打开动态票面。地铁按闸机提示扫描 App 票。</div>
+          <div class="validation"><strong>如果票在绿色 SL 卡</strong>第一次刷卡开始计时；之后每次上车或过闸仍按正常方式碰读卡器，不会重复扣费。</div>
+        </div>
+        <div class="fare-actions"><a href="https://sl.se/en" target="_blank" rel="noreferrer">打开 SL 实时查询 ↗</a><a href="#map-view">回到路线地图 ↑</a></div>
+      </div>
+    </section>
+
+    <section id="ready">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="eyebrow">05 · BEFORE 09:12</span><h2>早餐后，<br>完成这六件事。</h2></div>
+          <p>勾选状态会保存在本机浏览器里。临出发只需要一个原则：看 SL App 的实时班次，不照抄固定分钟数。</p>
+        </div>
+        <div class="prep-grid">
+          <article class="prep"><h3>穿衣</h3><p>11–15°C，多云转晴。临水和渡轮体感偏凉；薄毛衣 + 防风外层最合适，瓦萨馆内也较凉。</p></article>
+          <article class="prep"><h3>午餐</h3><p>国立博物馆 13:20 后只留约 35 分钟。若餐厅排队，直接买三明治/咖啡，不为正餐牺牲闭馆前看展时间。</p></article>
+          <article class="prep"><h3>背包</h3><p>瓦萨不允许大包；四馆都有安检/寄存可能。今天转场多，尽量只带轻便小包与充电宝。</p></article>
+        </div>
+        <div class="mobile-share">
+          <div><h3>手机浏览器可直接查看</h3><p>把这个 HTML 文件 AirDrop、微信文件或邮件到手机，在 Safari / Chrome 打开即可；页面会自动变为单栏大按钮布局。地图底图需要联网，完整时间表与乘车文字保存在文件内，无网仍能看。iPhone 可用“分享 → 添加到主屏幕”留作快捷入口。</p></div>
+          <div class="phone-mark" aria-hidden="true">▯</div>
+        </div>
+        <div class="checklist" id="checklist">
+          <label class="check-item"><input type="checkbox" data-key="moderna"><span>买好现代艺术博物馆 10 月 4 日入场票</span></label>
+          <label class="check-item"><input type="checkbox" data-key="foto"><span>买好摄影博物馆 17:00 后分时票</span></label>
+          <label class="check-item"><input type="checkbox" data-key="vasa"><span>决定瓦萨线上购票或现场刷卡（预购不免排队）</span></label>
+          <label class="check-item"><input type="checkbox" data-key="sl"><span>确认 SL 1 日票已经装入 App 或绿色卡；第一程前激活</span></label>
+          <label class="check-item"><input type="checkbox" data-key="bag"><span>大件行李留在酒店，只带小包、外套、充电宝</span></label>
+          <label class="check-item"><input type="checkbox" data-key="leave"><span>09:12 从喜来登大堂出发</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="sources">
+      <div class="shell">
+        <h2>官方信息源 · 2026.10.04 早晨核对</h2>
+        <div class="source-links">
+          <a href="https://www.vasamuseet.se/en/visit/hours--admission" target="_blank" rel="noreferrer"><span>瓦萨开放时间、季节票价</span><span>官方 ↗</span></a>
+          <a href="https://www.vasamuseet.se/en/visit/guided-tours" target="_blank" rel="noreferrer"><span>瓦萨英语公开导览</span><span>官方 ↗</span></a>
+          <a href="https://www.nationalmuseum.se/en/visit/admission-fees-and-tickets" target="_blank" rel="noreferrer"><span>国立博物馆票价与规则</span><span>官方 ↗</span></a>
+          <a href="https://www.modernamuseet.se/en/stockholm/visit-the-museum/" target="_blank" rel="noreferrer"><span>现代艺术博物馆今日展览</span><span>官方 ↗</span></a>
+          <a href="https://stockholm.fotografiska.com/en/visit/-0" target="_blank" rel="noreferrer"><span>摄影博物馆开放与交通</span><span>官方 ↗</span></a>
+          <a href="https://sl.se/en/fares-and-tickets/visitor-tickets/travelcards" target="_blank" rel="noreferrer"><span>SL 24 小时票与渡轮范围</span><span>官方 ↗</span></a>
+          <a href="https://sl.se/en/getting-around/how-to-travel-with-sl" target="_blank" rel="noreferrer"><span>82 号渡轮与码头呼叫规则</span><span>官方 ↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell">本页为今日执行版，不是固定时刻表。电车与渡轮请以 SL App 实时显示为准；票价与开放时间来自各机构官方页面，核对时间为 2026 年 10 月 4 日 06:45（斯德哥尔摩）。</div></footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const stockholmParts = () => {
+      const fmt = new Intl.DateTimeFormat('sv-SE', {timeZone:'Europe/Stockholm',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+      const p = Object.fromEntries(fmt.formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
+      return {date:`${p.year}-${p.month}-${p.day}`, time:`${p.hour}:${p.minute}:${p.second}`, mins:Number(p.hour)*60+Number(p.minute)};
+    };
+
+    function updateClock(){
+      const now=stockholmParts();
+      document.getElementById('clock').textContent=`STHLM ${now.time}`;
+      document.querySelectorAll('.stop[data-start]').forEach(el=>{
+        el.classList.remove('active','done');
+        if(now.date==='2026-10-04'){
+          const start=Number(el.dataset.start), end=Number(el.dataset.end);
+          if(now.mins>=start && now.mins<end) el.classList.add('active');
+          else if(now.mins>=end) el.classList.add('done');
+        }
+      });
+      const alert=document.getElementById('todayAlert');
+      if(now.date==='2026-10-04' && now.mins>=552){
+        const next=[...document.querySelectorAll('.stop[data-start]')].find(x=>Number(x.dataset.end)>now.mins);
+        alert.classList.add('show');
+        alert.textContent=next ? `现在是 ${now.time.slice(0,5)}。黄色框是当前建议所处环节；若进度落后，按下方“晚点时怎么砍”调整。` : '今日计划时段已结束，摄影博物馆仍开放至 23:00。';
+      }
+    }
+    updateClock(); setInterval(updateClock,1000);
+
+    document.querySelectorAll('#checklist input').forEach(input=>{
+      const key=`stockholm-20261004-${input.dataset.key}`;
+      input.checked=localStorage.getItem(key)==='1';
+      input.addEventListener('change',()=>localStorage.setItem(key,input.checked?'1':'0'));
+    });
+
+    function initTripMap(){
+      const fallback=document.querySelector('.map-fallback');
+      if(!window.L){
+        fallback.innerHTML='地图底图暂时无法加载。<br>请使用下方四段乘车卡，或点击每段的实时导航。';
+        return;
+      }
+
+      fallback.style.display='none';
+      const map=L.map('tripMap',{scrollWheelZoom:false,zoomControl:true,preferCanvas:true});
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        maxZoom:19,
+        attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+      const P={
+        hotel:[59.32867,18.06104], tramCentral:[59.33172,18.05780],
+        nybro:[59.33270,18.07770], vasaStop:[59.32920,18.09300], vasa:[59.32802,18.09140],
+        national:[59.32803,18.07856], moderna:[59.32586,18.08472], pier:[59.32460,18.08200],
+        slussenFerry:[59.32240,18.07460], foto:[59.31793,18.08508], slussenMetro:[59.31950,18.07230]
+      };
+      const colors={tram:'#257ca3',walk:'#d96745',ferry:'#27a7a0',metro:'#d63e49'};
+      const line=(points,color,options={})=>L.polyline(points,{color,weight:5,opacity:.92,lineCap:'round',lineJoin:'round',...options});
+      const dashed=(points)=>line(points,colors.walk,{weight:4,dashArray:'8 9'});
+
+      const tramPath=[P.tramCentral,[59.33125,18.07090],P.nybro,[59.33245,18.08470],[59.33110,18.08980],P.vasaStop];
+      const hotelWalk=dashed([P.hotel,[59.32985,18.06000],P.tramCentral]).bindPopup('<b>步行到 7 号电车</b>约 9 分钟 · T-Centralen Spårv');
+      const tramLine=line(tramPath,colors.tram).bindPopup('<b>7 号电车</b>去程往 Waldemarsudde；返程往 T-Centralen');
+      const vasaWalk=dashed([P.vasaStop,P.vasa]).bindPopup('<b>下车后步行</b>约 4 分钟到瓦萨博物馆');
+      const nationalWalk=dashed([P.nybro,[59.33085,18.07880],P.national]).bindPopup('<b>Nybroplan → 国立博物馆</b>沿水岸步行约 8–10 分钟');
+      const islandWalk=dashed([P.national,[59.32690,18.08015],P.moderna,P.pier]).bindPopup('<b>国立 → 现代 → 码头</b>这一段全程步行');
+      const ferryLine=line([P.pier,[59.32330,18.07820],P.slussenFerry],colors.ferry).bindPopup('<b>82 号渡轮</b>Skeppsholmen → Slussen · 1 日票有效');
+      const fotoWalk=dashed([P.slussenFerry,[59.32075,18.07920],P.foto]).bindPopup('<b>Slussen → Fotografiska</b>沿临时水岸步道约 800 米');
+      const returnWalk=dashed([P.foto,[59.31910,18.07910],P.slussenMetro]).bindPopup('<b>摄影馆 → Slussen 地铁站</b>步行约 12 分钟');
+      const metroLine=line([P.slussenMetro,[59.32390,18.06790],[59.33165,18.06025]],colors.metro).bindPopup('<b>红线或绿线</b>Slussen → T-Centralen · 2 站');
+      const hotelReturn=dashed([[59.33165,18.06025],P.hotel]).bindPopup('<b>T-Centralen → 酒店</b>步行约 8 分钟');
+
+      const groups={
+        tram:L.layerGroup([hotelWalk,tramLine,vasaWalk,nationalWalk]),
+        ferry:L.layerGroup([islandWalk,ferryLine,fotoWalk]),
+        return:L.layerGroup([returnWalk,metroLine,hotelReturn])
+      };
+      Object.values(groups).forEach(group=>group.addTo(map));
+
+      const pin=(coords,label,title,sub,kind='')=>L.marker(coords,{
+        icon:L.divIcon({className:`route-pin ${kind}`,html:`<span>${label}</span>`,iconSize:[32,32],iconAnchor:[16,16]})
+      }).bindPopup(`<b>${title}</b>${sub}`);
+      const markers=L.layerGroup([
+        pin(P.hotel,'H','Stockholm Sheraton','09:12 从大堂出发','hotel'),
+        pin(P.vasa,'1','瓦萨博物馆','10:00–11:35'),
+        pin(P.national,'2','国立博物馆','12:00–13:20'),
+        pin(P.moderna,'3','现代艺术博物馆','14:15–16:35'),
+        pin(P.pier,'82','Skeppsholmen 码头','按柱上按钮呼叫渡轮','transfer'),
+        pin(P.slussenFerry,'S','Slussen 渡轮码头','下船后沿水岸步行','transfer'),
+        pin(P.foto,'4','摄影博物馆','17:15–19:15')
+      ]).addTo(map);
+
+      const bounds={
+        all:L.latLngBounds([P.hotel,P.vasa,P.national,P.moderna,P.pier,P.slussenFerry,P.foto]),
+        tram:L.latLngBounds([P.hotel,P.tramCentral,P.vasa,P.nybro,P.national]),
+        ferry:L.latLngBounds([P.national,P.moderna,P.pier,P.slussenFerry,P.foto]),
+        return:L.latLngBounds([P.foto,P.slussenMetro,P.hotel])
+      };
+      const focusLeg=(name)=>{
+        Object.entries(groups).forEach(([key,group])=>{
+          if(name==='all'||name===key){if(!map.hasLayer(group))group.addTo(map)}else if(map.hasLayer(group))map.removeLayer(group);
+        });
+        if(!map.hasLayer(markers))markers.addTo(map);
+        map.fitBounds(bounds[name],{padding:[28,28],maxZoom:15});
+        document.querySelectorAll('[data-map-leg]').forEach(btn=>btn.classList.toggle('active',btn.dataset.mapLeg===name));
+      };
+      document.querySelectorAll('[data-map-leg]').forEach(btn=>btn.addEventListener('click',()=>focusLeg(btn.dataset.mapLeg)));
+      focusLeg('all');
+      setTimeout(()=>map.invalidateSize(),150);
+    }
+    window.addEventListener('load',initTripMap);
+  </script>
+</body>
+</html>
